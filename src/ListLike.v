@@ -42,7 +42,7 @@ Class ListLike (L : Type -> Type) : Type :=
           case_cons a l (list_like_rect P case_nil case_cons l);
 
     (* there is no need for ind_invar_nil and ind_invar_cons as equality is
-     *  not defined for propositions. *)
+     *  not well associated for propositions. *)
   }.
 
 Create HintDb listlike discriminated.
@@ -317,7 +317,7 @@ Module TermNotations.
   Notation "[]" := ml_nil : ll_scope.
   Notation "x :: xs" := (ml_cons x xs) (at level 60, right associativity) : ll_scope.
   Notation "l1 ++ l2" := (app l1 l2) (at level 60, right associativity) : ll_scope.
-  Notation "[ x .. z ]" := (ml_cons x .. (ml_cons z ml_nil) .. ) : ll_scope.
+  Notation "[ x ; .. ; z ]" := (ml_cons x .. (ml_cons z ml_nil) .. ) : ll_scope.
 
   Open Scope ll_scope.
   
@@ -556,3 +556,16 @@ Section Predicates.
   Qed.
 
 End Predicates.
+
+Module Notations.
+  Include TermNotations.
+
+  Notation "x ∈ xs" := (In x xs) (at level 80) : ll_scope.
+  Notation "x ∉ xs" := (~In x xs) (at level 80) : ll_scope.
+
+End Notations.
+
+Module Automations.
+  Include BasicAutomations.
+  Include MoreAutomations.
+End Automations.
